@@ -1,1 +1,2 @@
 # js_calculator
+This is a calculator that will accept input and output a result based on calculations done to the input. It will eventually get a gui, and will alert the user if any values that they enter are not acceptable, for example trying to divide by 0. 
