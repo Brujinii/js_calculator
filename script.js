@@ -24,10 +24,30 @@ let calculator = {
     },
     init() {
         // Get all necessary information for calculation
-        this._get_first_value()
-        this._get_op()
-        this._get_second_value()
+        this._get_first_value();
+        this._get_op();
+        this._validate_op(this.op)
+        this._get_second_value();
     },
+    _validate_op(op) {
+        let possible_operations = ["add", "sub", "mul", "div"];
+        if (possible_operations.includes(op) === false) {
+            alert("Input invalid");
+            this._get_op();
+            this._validate_op(this.op);
+        }   
+    },
+    // Get final answer and alert the user
+    calculate() {
+        let ans = (this.op === "add") ? this.v1 + this.v2:
+        (this.op === "sub") ? this.v1 - this.v2:
+        (this.op === "mul") ? this.v1 * this.v2:
+        this.v1 / this.v2
+        alert(`The final answer is: ${ans}`)
+    }
+    // Todo for next time:
+    // Make a function which checks to make sure the user is not trying to divide by 0
 };
 
 calculator.init()
+calculator.calculate()
