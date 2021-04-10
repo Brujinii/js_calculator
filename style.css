@@ -1,0 +1,66 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: Oswald;
+    color: white;
+    font-size: 45px;
+    box-sizing: border-box;
+}
+main {
+    height: 100vh;
+    width: 100vw;
+    background-image: linear-gradient(to top right, red,blue);
+    display: flex;
+}
+.calc-grid {
+    margin: auto;
+    height: 80%;
+    width: 35%;
+    padding: 13px;
+    background-color: rgb(0, 0, 0);
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 23.5% 23.5% 23.5% 23.5%;
+    grid-template-rows: auto auto auto auto auto;
+    column-gap: 2%;
+    row-gap: 1.6%;
+}
+.button {
+    background-color: rgb(36, 36, 36);
+    border-radius: 5px;
+}
+.output {
+    background-color: rgb(104, 104, 104);
+    grid-column-start: 1;
+    grid-column-end: 5;
+    border-radius: 5px;
+}
+.plus-button {
+    grid-row-start: 3;
+    grid-row-end: 5;
+    background-image: linear-gradient(to top right, blue, red);
+    grid-column-start: 4;
+    border-radius: 5px;
+}
+.enter-button {
+    grid-row-start: 5;
+    grid-row-end: 7;
+    background-image: linear-gradient(to top right, blue, red);
+    grid-column-start: 4;
+    border-radius: 5px;
+}
+.zero-button {
+    background-image: linear-gradient(to top right, blue, red);
+    grid-column-start: 1;
+    grid-column-end: 3;
+    border-radius: 5px;
+}
+.enter-button,
+.zero-button,
+.button,
+.plus-button {
+    vertical-align: middle;
+}
+.output {
+    text-align: right;
+}
