@@ -3,7 +3,7 @@
     padding: 0px;
     font-family: Oswald;
     color: white;
-    font-size: 45px;
+    font-size: 50px;
     box-sizing: border-box;
     font-weight: 300;
     cursor: default;
@@ -67,10 +67,15 @@ main {
     transition: ease all .2s;
 }
 .output {
-    text-align: right;
-    padding: 10px;
-    font-size: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 25px;
     height: 100%;
+}
+.output-numbers {
+    font-size: 70px;
+    font-weight: 400;
 }
 .enter-button:hover,
 .zero-button:hover,
