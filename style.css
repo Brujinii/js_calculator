@@ -6,6 +6,7 @@
     font-size: 45px;
     box-sizing: border-box;
     font-weight: 300;
+    cursor: default;
 }
 main {
     height: 100vh;
@@ -63,6 +64,7 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: ease all .2s;
 }
 .output {
     text-align: right;
@@ -74,9 +76,12 @@ main {
 .zero-button:hover,
 .button:hover,
 .plus-button:hover {
-    filter: brightness(1.5);
+    filter: brightness(1.2);
 }
 /* Apply transitions last */
-* {
-    transition: ease all .2s;
+@media only screen and (max-width: 900px) {
+    .calc-grid {
+        height: 100vh;
+        width: 100vw;
+    }
 }
