@@ -1,4 +1,4 @@
-// Creat the calculator object
+// Create the calculator object
 let calculator = {
     _get_first_value() {
         this.v1 = prompt("What should the first number be?");
