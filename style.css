@@ -5,6 +5,7 @@
     color: white;
     font-size: 45px;
     box-sizing: border-box;
+    font-weight: 300;
 }
 main {
     height: 100vh;
@@ -21,7 +22,7 @@ main {
     border-radius: 5px;
     display: grid;
     grid-template-columns: 23.5% 23.5% 23.5% 23.5%;
-    grid-template-rows: auto auto auto auto auto;
+    grid-template-rows: 15.333% 15.333% 15.333% 15.333% 15.333%;
     column-gap: 2%;
     row-gap: 1.6%;
 }
@@ -59,8 +60,23 @@ main {
 .zero-button,
 .button,
 .plus-button {
-    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .output {
     text-align: right;
+    padding: 10px;
+    font-size: 60px;
+    height: 100%;
+}
+.enter-button:hover,
+.zero-button:hover,
+.button:hover,
+.plus-button:hover {
+    filter: brightness(1.5);
+}
+/* Apply transitions last */
+* {
+    transition: ease all .2s;
 }
