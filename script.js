@@ -1,33 +1,55 @@
 // Create the calculator object
 let calculator = {
-    _get_first_value() {
-        this.v1 = prompt("What should the first number be?");
-        // Make sure that the input is a number
-        this.v1 = parseInt(this.v1);
-        if (Number.isNaN(this.v1)) {
-            alert("Input invalid");
-            this._get_first_value();
-        };
-    }, 
-    _get_op() {
-        // Get the operation to be performed
-        this.op = prompt("Which operation should the calculator perform? (add, sub, mul, div)");
+    _select_elems() {
+        console.log("Elements selected")
+        this.op = document.querySelectorAll('.op')
+        this.nums = document.querySelectorAll('.nums');
+        this.decimal = document.querySelector('#decimal');
+        this.output = document.querySelector('.output-numbers');
+        this.clear = document.querySelector('#clear');
+        this.enter = document.querySelector(selectors)
     },
-    _get_second_value() {
-        this.v2 = prompt("What should the second number be?")
-        // Make sure that the input is a number
-        this.v2 = parseInt(this.v2);
-        if (Number.isNaN(this.v2)) {
-            alert("Input invalid");
-            this._get_second_value();
-        };
+    _add_listeners () { 
+        // Use "forEach" to cycle through each button
+        this.nums.forEach(num => {
+            num.addEventListener('click', () => {
+                this.numbers_clicked = this.numbers_clicked + this.num_object[num.id];
+                this.output.textContent = this.numbers_clicked;
+            })
+        });
+        this.clear.addEventListener('click', () => {
+            this.output.textContent = '0';
+            this.numbers_clicked = '';
+        });
+        this.op.forEach(op => {
+            op.addEventListener('click', () => {
+                this.first_number = Number(this.numbers_clicked)
+                console.log(this.first_number)
+                this.numbers_clicked = ''
+                this.output.textContent = '0'
+                this.operation = op.id
+            });
+        });
     },
     init() {
         // Get all necessary information for calculation
-        this._get_first_value();
-        this._get_op();
-        this._validate_op(this.op)
-        this._get_second_value();
+        this.operation = ''
+        this.first_number = 0
+        this.numbers_clicked = '';
+        this.num_object = {
+            "zero": 0,
+            "one": 1,
+            "two": 2,
+            "three": 3,
+            "four": 4,
+            "five": 5,
+            "six": 6,
+            "seven": 7,
+            "eight": 8,
+            "nine": 9,
+        };
+        this._select_elems();
+        this._add_listeners();
     },
     _validate_op(op) {
         let possible_operations = ["add", "sub", "mul", "div"];
@@ -48,6 +70,5 @@ let calculator = {
     // Todo for next time:
     // Make a function which checks to make sure the user is not trying to divide by 0
 };
-
-calculator.init()
-calculator.calculate()
+calculator.init();
+console.log(calculator.output);
