@@ -7,7 +7,7 @@ let calculator = {
         this.decimal = document.querySelector('#decimal');
         this.output = document.querySelector('.output-numbers');
         this.clear = document.querySelector('#clear');
-        this.enter = document.querySelector(selectors)
+        this.equals = document.querySelector('#equals');
     },
     _add_listeners () { 
         // Use "forEach" to cycle through each button
@@ -24,15 +24,36 @@ let calculator = {
         this.op.forEach(op => {
             op.addEventListener('click', () => {
                 this.first_number = Number(this.numbers_clicked)
-                console.log(this.first_number)
                 this.numbers_clicked = ''
                 this.output.textContent = '0'
-                this.operation = op.id
+                this.operation = op.id;
+                console.log(this.operation);
             });
+        });
+        this.equals.addEventListener('click', () => {
+            let result = 0
+            let second_num = Number(this.numbers_clicked)
+            switch (this.operation) {
+                case "plus":
+                    result = this.first_number + second_num;
+                    break;
+                case "sub":
+                    result = this.first_number - second_num;
+                    break;
+                case "mul":
+                    result = this.first_number * second_num;
+                    break;
+                case "div":
+                    result = this.first_number / second_num;
+                    result = result.toFixed(3);
+                    break;
+            }
+            this.first_number = result
+            this.output.textContent = result
         });
     },
     init() {
-        // Get all necessary information for calculation
+        // Initialize variables needed
         this.operation = ''
         this.first_number = 0
         this.numbers_clicked = '';
