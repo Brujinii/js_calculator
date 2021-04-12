@@ -20,41 +20,76 @@ let calculator = {
         this.clear.addEventListener('click', () => {
             this.output.textContent = '0';
             this.numbers_clicked = '';
+            this.result = 0
+            this.first_number = 0
         });
         this.op.forEach(op => {
             op.addEventListener('click', () => {
-                this.first_number = Number(this.numbers_clicked)
+                console.log(op.id)
+                switch (op.id) {
+                    case "plus":
+                        console.log(this.first_number)
+                        console.log(this.numbers_clicked)
+                        this.first_number = this.first_number + Number(this.numbers_clicked);
+                        break;
+                    case "sub":
+                        if (this.first_number === 0) {
+                            this.first_number = Number(this.numbers_clicked);
+                        } else {
+                            this.first_number = this.first_number - Number(this.numbers_clicked)
+                        }
+                        break
+                    case "mult":
+                        console.log(this.first_number);
+                        if (this.first_number === 0) {
+                            this.first_number = 1 * Number(this.numbers_clicked);
+                        } else {
+                            this.first_number = this.first_number * Number(this.numbers_clicked);
+                        }
+                        break;
+                    case "div":
+                        if (this.first_number === 0) {
+                            console.log("Hello")
+                            this.first_number = Number(this.numbers_clicked)
+                        } else {
+                            this.first_number = this.first_number / Number(this.numbers_clicked);
+                        }
+                        break;
+                }
                 this.numbers_clicked = ''
+                console.log(this.numbers_clicked)
                 this.output.textContent = '0'
                 this.operation = op.id;
-                console.log(this.operation);
             });
         });
         this.equals.addEventListener('click', () => {
-            let result = 0
             let second_num = Number(this.numbers_clicked)
             switch (this.operation) {
                 case "plus":
-                    result = this.first_number + second_num;
+                    this.result = this.first_number + second_num;
                     break;
                 case "sub":
-                    result = this.first_number - second_num;
+                    this.result = this.first_number - second_num;
                     break;
-                case "mul":
-                    result = this.first_number * second_num;
+                case "mult":
+                    this.result = this.first_number * second_num;
+                    console.log(this.first_number)
+                    console.log(second_num)
                     break;
                 case "div":
-                    result = this.first_number / second_num;
-                    result = result.toFixed(3);
+                    this.result = this.first_number / second_num;
+                    this.result = this.result.toFixed(3);
                     break;
             }
-            this.first_number = result
-            this.output.textContent = result
+            this.first_number = this.result
+            this.output.textContent = this.result
+            this.numbers_clicked = ''
         });
     },
     init() {
         // Initialize variables needed
         this.operation = ''
+        this.result = 0
         this.first_number = 0
         this.numbers_clicked = '';
         this.num_object = {
@@ -72,24 +107,7 @@ let calculator = {
         this._select_elems();
         this._add_listeners();
     },
-    _validate_op(op) {
-        let possible_operations = ["add", "sub", "mul", "div"];
-        if (possible_operations.includes(op) === false) {
-            alert("Input invalid");
-            this._get_op();
-            this._validate_op(this.op);
-        }   
-    },
-    // Get final answer and alert the user
-    calculate() {
-        let ans = (this.op === "add") ? this.v1 + this.v2:
-        (this.op === "sub") ? this.v1 - this.v2:
-        (this.op === "mul") ? this.v1 * this.v2:
-        this.v1 / this.v2
-        alert(`The final answer is: ${ans}`)
-    }
     // Todo for next time:
-    // Make a function which checks to make sure the user is not trying to divide by 0
+    // If there was a previous operation, compute it before moving on to inputting the next operation
 };
 calculator.init();
-console.log(calculator.output);
