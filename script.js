@@ -1,5 +1,26 @@
 // Create the calculator object
 let calculator = {
+    init() {
+        // Initialize variables needed
+        this.operation = ''
+        this.result = 0
+        this.first_number = 0
+        this.numbers_clicked = '';
+        this.num_object = {
+            "zero": 0,
+            "one": 1,
+            "two": 2,
+            "three": 3,
+            "four": 4,
+            "five": 5,
+            "six": 6,
+            "seven": 7,
+            "eight": 8,
+            "nine": 9,
+        };
+        this._select_elems();
+        this._add_listeners();
+    },
     _select_elems() {
         console.log("Elements selected")
         this.op = document.querySelectorAll('.op')
@@ -26,7 +47,8 @@ let calculator = {
         this.op.forEach(op => {
             op.addEventListener('click', () => {
                 console.log(op.id)
-                switch (op.id) {
+                console.log(this.operation)
+                switch (this.operation) {
                     case "plus":
                         console.log(this.first_number)
                         console.log(this.numbers_clicked)
@@ -55,9 +77,10 @@ let calculator = {
                             this.first_number = this.first_number / Number(this.numbers_clicked);
                         }
                         break;
+                    default:
+                        this.first_number = Number(this.numbers_clicked)
                 }
                 this.numbers_clicked = ''
-                console.log(this.numbers_clicked)
                 this.output.textContent = '0'
                 this.operation = op.id;
             });
@@ -73,39 +96,17 @@ let calculator = {
                     break;
                 case "mult":
                     this.result = this.first_number * second_num;
-                    console.log(this.first_number)
-                    console.log(second_num)
                     break;
                 case "div":
+                    console.log(second_num)
+                    console.log(this.first_number)
                     this.result = this.first_number / second_num;
-                    this.result = this.result.toFixed(3);
                     break;
             }
             this.first_number = this.result
             this.output.textContent = this.result
             this.numbers_clicked = ''
         });
-    },
-    init() {
-        // Initialize variables needed
-        this.operation = ''
-        this.result = 0
-        this.first_number = 0
-        this.numbers_clicked = '';
-        this.num_object = {
-            "zero": 0,
-            "one": 1,
-            "two": 2,
-            "three": 3,
-            "four": 4,
-            "five": 5,
-            "six": 6,
-            "seven": 7,
-            "eight": 8,
-            "nine": 9,
-        };
-        this._select_elems();
-        this._add_listeners();
     },
     // Todo for next time:
     // If there was a previous operation, compute it before moving on to inputting the next operation
