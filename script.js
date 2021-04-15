@@ -2,9 +2,12 @@
 let calculator = {
     init() {
         // Initialize variables needed
-        this.operation = ''
+        this.previous_operation = ''
+        this.current_operation = ''
+        this.num_clicked = true
         this.result = 0
         this.first_number = 0
+        this.second_number = 0
         this.numbers_clicked = '';
         this.num_object = {
             "zero": 0,
@@ -21,94 +24,106 @@ let calculator = {
         this._select_elems();
         this._add_listeners();
     },
+
+    // Select elements used in calc
     _select_elems() {
-        console.log("Elements selected")
-        this.op = document.querySelectorAll('.op')
+        this.add = document.querySelector('#plus')
+        this.sub = document.querySelector('#sub')
+        this.mul = document.querySelector('#mult')
+        this.div = document.querySelector('#div')
         this.nums = document.querySelectorAll('.nums');
         this.decimal = document.querySelector('#decimal');
         this.output = document.querySelector('.output-numbers');
         this.clear = document.querySelector('#clear');
         this.equals = document.querySelector('#equals');
+        console.log("Elements selected")
     },
-    _add_listeners () { 
-        // Use "forEach" to cycle through each button
-        this.nums.forEach(num => {
+
+    // Evaluate previous operation
+    _eval_previous() {
+        switch(this.previous_operation) {
+        case 'add':
+            this.first_number = this.first_number + this.second_number;
+            break;
+        case 'sub':
+            this.first_number = this.first_number - this.second_number;
+            break;
+        case 'mul':
+            this.first_number = this.first_number * this.second_number;
+            break;
+        case 'div':
+            this.first_number = this.first_number / this.second_number;
+            break;
+        default:
+            console.log("The default operation was performed")
+            this.first_number = this.second_number
+        };
+        this.result = this.first_number
+        this.previous_operation = this.current_operation
+    },
+
+    // Take care of functions happening during operations
+    _refresh() {
+        if (this.numbers_clicked != '') {
+            this.second_number = Number(this.numbers_clicked);
+        };
+        this.num_clicked = false;
+        this.output.textContent = 0;
+        this.numbers_clicked = '';
+    },
+
+    _add_listeners() {
+
+        // Add listeners to each number, put it into numbers_clicked for use
+        this.nums.forEach((num) => {
             num.addEventListener('click', () => {
                 this.numbers_clicked = this.numbers_clicked + this.num_object[num.id];
                 this.output.textContent = this.numbers_clicked;
-            })
-        });
-        this.clear.addEventListener('click', () => {
-            this.output.textContent = '0';
-            this.numbers_clicked = '';
-            this.result = 0
-            this.first_number = 0
-        });
-        this.op.forEach(op => {
-            op.addEventListener('click', () => {
-                console.log(op.id)
-                console.log(this.operation)
-                switch (this.operation) {
-                    case "plus":
-                        console.log(this.first_number)
-                        console.log(this.numbers_clicked)
-                        this.first_number = this.first_number + Number(this.numbers_clicked);
-                        break;
-                    case "sub":
-                        if (this.first_number === 0) {
-                            this.first_number = Number(this.numbers_clicked);
-                        } else {
-                            this.first_number = this.first_number - Number(this.numbers_clicked)
-                        }
-                        break
-                    case "mult":
-                        console.log(this.first_number);
-                        if (this.first_number === 0) {
-                            this.first_number = 1 * Number(this.numbers_clicked);
-                        } else {
-                            this.first_number = this.first_number * Number(this.numbers_clicked);
-                        }
-                        break;
-                    case "div":
-                        if (this.first_number === 0) {
-                            console.log("Hello")
-                            this.first_number = Number(this.numbers_clicked)
-                        } else {
-                            this.first_number = this.first_number / Number(this.numbers_clicked);
-                        }
-                        break;
-                    default:
-                        this.first_number = Number(this.numbers_clicked)
+                if (this.num_clicked === false) {
+                    this._eval_previous()
+                    this.num_clicked = true
                 }
-                this.numbers_clicked = ''
-                this.output.textContent = '0'
-                this.operation = op.id;
             });
         });
+        console.log("Numbers selected");
+
+        // Clear Values
+        this.clear.addEventListener('click', () => {
+            this.result = 0;
+            this.first_number = 0;
+            this.numbers_clicked = '';
+            this.previous_operation = '';
+            this.current_operation = '';
+            this.output.textContent = 0;
+        });
+        
+        // Add event listeners to the operations
+        this.add.addEventListener('click', () => {
+            this._refresh()
+            this.current_operation = 'add'
+        });
+        this.sub.addEventListener('click', () => {
+            this._refresh()
+            this.current_operation = 'sub'
+        });
+        this.mul.addEventListener('click', () => {
+            this._refresh()
+            this.current_operation = 'mul';
+        });
+        this.div.addEventListener('click', () => {
+            this._refresh()
+            this.current_operation = 'div';
+        });
+
+        // Show result
         this.equals.addEventListener('click', () => {
-            let second_num = Number(this.numbers_clicked)
-            switch (this.operation) {
-                case "plus":
-                    this.result = this.first_number + second_num;
-                    break;
-                case "sub":
-                    this.result = this.first_number - second_num;
-                    break;
-                case "mult":
-                    this.result = this.first_number * second_num;
-                    break;
-                case "div":
-                    console.log(second_num)
-                    console.log(this.first_number)
-                    this.result = this.first_number / second_num;
-                    break;
-            }
-            this.first_number = this.result
-            this.output.textContent = this.result
-            this.numbers_clicked = ''
+            this.second_number = Number(this.numbers_clicked)
+            this._eval_previous();
+            this.output.textContent = this.result;
         });
     },
+    
     // Todo for next time:
-    // If there was a previous operation, compute it before moving on to inputting the next operation
+    // Fix it saving last operation and performing that after equals is pressed.
 };
 calculator.init();
