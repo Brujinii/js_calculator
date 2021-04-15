@@ -54,6 +54,9 @@ let calculator = {
         case 'div':
             this.first_number = this.first_number / this.second_number;
             break;
+        case 'equals':
+            this.first_number = this.result
+            break
         default:
             console.log("The default operation was performed")
             this.first_number = this.second_number
@@ -118,6 +121,7 @@ let calculator = {
         // Show result
         this.equals.addEventListener('click', () => {
             this.second_number = Number(this.numbers_clicked)
+            this.current_operation = 'equals'
             this._eval_previous();
             this.output.textContent = this.result;
         });
