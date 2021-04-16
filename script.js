@@ -5,6 +5,7 @@ let calculator = {
         this.previous_operation = ''
         this.current_operation = ''
         this.num_clicked = true
+        this.div_by_zero = false
         this.result = 0
         this.first_number = 0
         this.second_number = 0
@@ -25,6 +26,16 @@ let calculator = {
         this._add_listeners();
     },
 
+    // Clear function, used when error occurs or clear is pressed
+    _clear() {
+        this.result = 0;
+        this.first_number = 0;
+        this.numbers_clicked = '';
+        this.previous_operation = '';
+        this.current_operation = '';
+        this.output.textContent = 0;
+        this.div_by_zero = false
+    },
     // Select elements used in calc
     _select_elems() {
         this.add = document.querySelector('#plus')
@@ -52,7 +63,14 @@ let calculator = {
             this.first_number = this.first_number * this.second_number;
             break;
         case 'div':
-            this.first_number = this.first_number / this.second_number;
+            if (this.second_number == 0 || this.first_number == 0) {
+                this._clear()
+                this.div_by_zero = true
+                console.log("Error: div by zero")
+            } else {
+                this.div_by_zero = false
+                this.first_number = this.first_number / this.second_number;
+            }
             break;
         case 'equals':
             this.first_number = this.result
@@ -61,8 +79,10 @@ let calculator = {
             console.log("The default operation was performed")
             this.first_number = this.second_number
         };
-        this.result = this.first_number
-        this.previous_operation = this.current_operation
+        if (!this.div_by_zero) {
+            this.result = this.first_number
+            this.previous_operation = this.current_operation
+        };
     },
 
     // Take care of functions happening during operations
@@ -92,12 +112,7 @@ let calculator = {
 
         // Clear Values
         this.clear.addEventListener('click', () => {
-            this.result = 0;
-            this.first_number = 0;
-            this.numbers_clicked = '';
-            this.previous_operation = '';
-            this.current_operation = '';
-            this.output.textContent = 0;
+            this._clear()      
         });
         
         // Add event listeners to the operations
@@ -123,11 +138,16 @@ let calculator = {
             this.second_number = Number(this.numbers_clicked)
             this.current_operation = 'equals'
             this._eval_previous();
-            this.output.textContent = this.result;
+            if (this.div_by_zero) {
+                this.output.textContent = "Error: div by 0"
+                this.div_by_zero = false
+            } else {
+                this.output.textContent = this.result;
+            }
         });
     },
     
     // Todo for next time:
-    // Fix it saving last operation and performing that after equals is pressed.
+    // Add floating point numbers
 };
 calculator.init();
