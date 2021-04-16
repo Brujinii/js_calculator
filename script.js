@@ -6,6 +6,7 @@ let calculator = {
         this.current_operation = ''
         this.num_clicked = true
         this.div_by_zero = false
+        this.decimal_in_number = false
         this.result = 0
         this.first_number = 0
         this.second_number = 0
@@ -21,6 +22,7 @@ let calculator = {
             "seven": 7,
             "eight": 8,
             "nine": 9,
+            "decimal": '.'
         };
         this._select_elems();
         this._add_listeners();
@@ -100,7 +102,15 @@ let calculator = {
         // Add listeners to each number, put it into numbers_clicked for use
         this.nums.forEach((num) => {
             num.addEventListener('click', () => {
-                this.numbers_clicked = this.numbers_clicked + this.num_object[num.id];
+                
+                if (this.decimal_in_number && num.id === "decimal" ) {
+                    console.log("The decimal was not added to the numbers clicked")
+                } else {
+                    this.numbers_clicked = this.numbers_clicked + this.num_object[num.id];
+                };
+                if (num.id === "decimal") {
+                    this.decimal_in_number = true
+                };
                 this.output.textContent = this.numbers_clicked;
                 if (this.num_clicked === false) {
                     this._eval_previous()
@@ -149,5 +159,6 @@ let calculator = {
     
     // Todo for next time:
     // Add floating point numbers
+    // Make sure that the user can only enter one decimal per number
 };
 calculator.init();
