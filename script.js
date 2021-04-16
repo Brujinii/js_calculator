@@ -37,6 +37,7 @@ let calculator = {
         this.current_operation = '';
         this.output.textContent = 0;
         this.div_by_zero = false
+        this.decimal_in_number = false
     },
     // Select elements used in calc
     _select_elems() {
@@ -95,6 +96,7 @@ let calculator = {
         this.num_clicked = false;
         this.output.textContent = 0;
         this.numbers_clicked = '';
+        this.decimal_in_number = false
     },
 
     _add_listeners() {
